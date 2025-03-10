@@ -6,6 +6,7 @@ import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import { useState, useEffect } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ const ShowBook = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5555/books/${id}`)
+      .get(`${API_URL}/books/${id}`)
       .then((res) => {
         setBook(res.data.data);
         setLoading(false);
@@ -23,7 +24,7 @@ const ShowBook = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [id]);
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-start">

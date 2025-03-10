@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import {useSnackbar} from "notistack";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const EditBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -17,7 +18,7 @@ const EditBook = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5555/books/${id}`)
+      .get(`${API_URL}/books/${id}`)
       .then((res) => {
         console.log("Fetched book data:", res.data); // Verify the structure
         if (res.data) {
@@ -33,13 +34,13 @@ const EditBook = () => {
         enqueueSnackbar(error.response.data.message, {variant:"error"});
         setLoading(false);
       });
-  }, [id]);
+  }, [id, enqueueSnackbar]);
 
   const handleEditBook = () => {
     const data = { title, author, publishYear };
     setLoading(true);
     axios
-      .put(`http://localhost:5555/books/${id}`, data)
+      .put(`${API_URL}/books/${id}`, data)
       .then(() => {
         setLoading(false);
         navigate("/"); // Redirect after saving
